@@ -1,0 +1,174 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Recursion, Re-implementing underscore.js, Data Structures</title>
+    <meta name="description" content="">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="../assets/css/screen.css?v=c2010be770">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,400">
+
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="Lorem Ipsum Loquitur">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Recursion, Re-implementing underscore.js, Data Structures">
+    <meta property="og:description" content="I've only been at MakerSquare for four days and it feels like four weeks. And I mean that in the best possible way! In the past four days, I've done the following: Learned what recursion is and how to write...">
+    <meta property="og:url" content="http://localhost:2368/recursion-re-implementing-underscore-js-data-structures/">
+    <meta property="article:published_time" content="2015-11-20T06:43:41.158Z">
+    <meta property="article:modified_time" content="2015-11-20T06:43:41.157Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Recursion, Re-implementing underscore.js, Data Structures">
+    <meta name="twitter:description" content="I've only been at MakerSquare for four days and it feels like four weeks. And I mean that in the best possible way! In the past four days, I've done the following: Learned what recursion is and how to write...">
+    <meta name="twitter:url" content="http://localhost:2368/recursion-re-implementing-underscore-js-data-structures/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "Lorem Ipsum Loquitur",
+    "author": {
+        "@type": "Person",
+        "name": "Ryan Reynolds",
+        "url": "http://localhost:2368/author/ryan",
+        "sameAs": null,
+        "description": null
+    },
+    "headline": "Recursion, Re-implementing underscore.js, Data Structures",
+    "url": "http://localhost:2368/recursion-re-implementing-underscore-js-data-structures/",
+    "datePublished": "2015-11-20T06:43:41.158Z",
+    "dateModified": "2015-11-20T06:43:41.157Z",
+    "description": "I&#x27;ve only been at MakerSquare for four days and it feels like four weeks. And I mean that in the best possible way! In the past four days, I&#x27;ve done the following: Learned what recursion is and how to write..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="Lorem Ipsum Loquitur" href="../rss/index.html">
+</head>
+<body class="post-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="index.html#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+            <li class="nav-home" role="presentation"><a href="../">Home</a></li>
+    </ul>
+    <a class="subscribe-button icon-feed" href="../rss/index.rss">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        
+            <a class="menu-button icon-menu" href="index.html#"><span class="word">Menu</span></a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Recursion, Re-implementing underscore.js, Data Structures</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2015-11-19">19 November 2015</time> 
+            </section>
+        </header>
+
+        <section class="post-content">
+            <p>I've only been at MakerSquare for four days and it feels like four weeks. And I mean that in the best possible way!</p>
+
+<p>In the past four days, I've done the following:</p>
+
+<ul>
+<li>Learned what recursion is and how to write recursive functions </li>
+<li>Implemented 15 underscore.js functions</li>
+<li>Implemented stack and queue using the four instantiation patterns <br>
+<ul><li>functional</li>
+<li>functional-shared</li>
+<li>prototypal</li>
+<li>pseudoclassical</li></ul></li>
+<li>Utilized pair programming as both driver and navigator for all of the above (I really like coding this way!)</li>
+<li>Learned about lexical scoping and closure</li>
+<li>Used github daily to push my code to my repos</li>
+<li>Learned how to create an algorithm to solve a problem</li>
+<li>Went over coding best practices</li>
+<li>Examined function binding and how to use "this"</li>
+</ul>
+
+<p>Phew!</p>
+        </section>
+
+        <footer class="post-footer">
+
+
+
+            <section class="author">
+                <h4><a href="../author/ryan/">Ryan Reynolds</a></h4>
+
+                    <p>Read <a href="../author/ryan/">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    
+                    
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/intent/tweet?text=Recursion%2C%20Re-implementing%20underscore.js%2C%20Data%20Structures&amp;url=http://localhost:2368/recursion-re-implementing-underscore-js-data-structures/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:2368/recursion-re-implementing-underscore-js-data-structures/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://localhost:2368/recursion-re-implementing-underscore-js-data-structures/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+    </article>
+</main>
+
+<aside class="read-next">
+    <a class="read-next-story prev no-cover" href="../first-steps-toward-becoming-a-web-developer/">
+        <section class="post">
+            <h2>First Steps Toward Becoming a Web Developer</h2>
+            <p>After five years of practicing law, I quit my corporate law job to decide what I wanted to do…</p>
+        </section>
+    </a>
+</aside>
+
+
+
+        <footer class="site-footer clearfix">
+            <section class="copyright"><a href="../">Lorem Ipsum Loquitur</a> © 2015</section>
+            <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+        </footer>
+
+    </div>
+
+    
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery.fitvids.js?v=c2010be770"></script>
+    <script type="text/javascript" src="../assets/js/index.js?v=c2010be770"></script>
+
+</body>
