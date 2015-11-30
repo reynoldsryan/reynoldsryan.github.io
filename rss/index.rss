@@ -1,4 +1,12 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Fri, 20 Nov 2015 06:51:44 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Recursion, Re-implementing underscore.js, Data Structures</title><description>&lt;p&gt;I've only been at MakerSquare for four days and it feels like four weeks. And I mean that in the best possible way!&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Mon, 30 Nov 2015 07:52:01 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Finished the First Week</title><description>&lt;p&gt;We finished the first week coding the following data structures: linked lists, trees, graphs, sets, binary search trees, and hash tables.&lt;/p&gt;
+
+&lt;p&gt;Of those, hash tables were the hardest for me to get my head around since I had to understand not only how to create the storage, but how to&lt;/p&gt;</description><link>http://localhost:2368/lessons-from-the-first-week/</link><guid isPermaLink="false">970960f2-cdff-47b6-bd40-7b0591536e63</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Mon, 30 Nov 2015 07:51:14 GMT</pubDate><content:encoded>&lt;p&gt;We finished the first week coding the following data structures: linked lists, trees, graphs, sets, binary search trees, and hash tables.&lt;/p&gt;
+
+&lt;p&gt;Of those, hash tables were the hardest for me to get my head around since I had to understand not only how to create the storage, but how to use the get and set methods along with a hashing function to find and store key/value pairs in memory. I found that drawing out on a whiteboard a visual representation of the data structure helped immensely. &lt;/p&gt;
+
+&lt;p&gt;I think so far the biggest challenge though has been figuring out how to approach a coding problem in general. We've been given some guidance on coming up with an algorithm to solve a problem, but since there's still so much new material I'm learning it can be difficult to remember to take things one step at a time. I'm getting better at it though and have learned to read the instructions very carefully to figure out what the unknown is that I'm trying to solve for and then use the knowledge that I have to create a step by step plan to tackle the problem. Before I would have just started coding and using trial and error to eventually get to the solution. Taking the time to devise a plan of attack, draw some diagrams and write some pseudocode is definitely helping me come up with working code quicker. And when it inevitably doesn't work quite as expected the first time around, Chrome dev tools has become my new best friend for quickly finding the source of the error.&lt;/p&gt;
+
+&lt;p&gt;After the first week ended, I had this entire last week off for the Thanksgiving holiday, which I mostly spent camping in Big Sur and enjoying the great outdoors, but I also spent some time earlier this week solving challenges on Code Wars just to keep the momentum going while also reviewing what I did during my first week at MakerSquare.  I'm excited to see what this next week brings!&lt;/p&gt;</content:encoded></item><item><title>Recursion, Re-implementing underscore.js, Data Structures</title><description>&lt;p&gt;I've only been at MakerSquare for four days and it feels like four weeks. And I mean that in the best possible way!&lt;/p&gt;
 
 &lt;p&gt;In the past four days, I've done the following:&lt;/p&gt;
 
@@ -12,11 +20,7 @@
 &lt;ul&gt;
 &lt;li&gt;Learned what recursion is and how to write recursive functions &lt;/li&gt;
 &lt;li&gt;Implemented 15 underscore.js functions&lt;/li&gt;
-&lt;li&gt;Implemented stack and queue using the four instantiation patterns &lt;br&gt;
-&lt;ul&gt;&lt;li&gt;functional&lt;/li&gt;
-&lt;li&gt;functional-shared&lt;/li&gt;
-&lt;li&gt;prototypal&lt;/li&gt;
-&lt;li&gt;pseudoclassical&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Implemented stack and queue using the following four instantiation patterns: functional, functional with shared methods, prototypal and pseudoclassical&lt;/li&gt;
 &lt;li&gt;Utilized pair programming as both driver and navigator for all of the above (I really like coding this way!)&lt;/li&gt;
 &lt;li&gt;Learned about lexical scoping and closure&lt;/li&gt;
 &lt;li&gt;Used github daily to push my code to my repos&lt;/li&gt;
