@@ -1,4 +1,33 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Tue, 12 Jan 2016 00:24:07 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>How to Make Your Angular Code Modular Using Custom Directives</title><description>&lt;p&gt;If you're like me, when you first started coding, you put all your Javascript in one big app.js file and all your HTML in one big index.html file. The problem with this is that as your application grows, so does your headache trying to find particular lines of&lt;/p&gt;</description><link>http://localhost:2368/modular-angular/</link><guid isPermaLink="false">5c7d8c99-179b-4a34-a6d3-0ae312526bdb</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Tue, 12 Jan 2016 00:23:13 GMT</pubDate><content:encoded>&lt;p&gt;If you're like me, when you first started coding, you put all your Javascript in one big app.js file and all your HTML in one big index.html file. The problem with this is that as your application grows, so does your headache trying to find particular lines of code or trying to sort out what is exactly doing what. Making your code more modular by breaking it up in to smaller files keeps your code clean, readable and reusable.&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Mon, 18 Jan 2016 02:52:08 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Promises Inside a For Loop</title><description>&lt;p&gt;I stumbled across an awesome fix for a problem I was encountering this week. Basically I was trying to run a promise in every iteration of a for loop like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for (var i = 0; i &amp;lt; array.length; i++) {  
+        this.doSomething()
+        .then(function() {...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But written this way the for&lt;/p&gt;</description><link>http://localhost:2368/promises-inside-a-for-loop/</link><guid isPermaLink="false">b6733031-1764-4d22-b53e-8404b3c0c15b</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Mon, 18 Jan 2016 02:50:03 GMT</pubDate><content:encoded>&lt;p&gt;I stumbled across an awesome fix for a problem I was encountering this week. Basically I was trying to run a promise in every iteration of a for loop like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for (var i = 0; i &amp;lt; array.length; i++) {  
+        this.doSomething()
+        .then(function() {...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But written this way the for loop went through every iteration and got to the end of the array before it ever got to the '.then' statement. Thankfully, I found the following helpful code snippet from Todd Motto - thanks Todd!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://jsfiddle.net/toddmotto/k4Ycr/"&gt;http://jsfiddle.net/toddmotto/k4Ycr/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Basically, you wrap your promise in a function that is immediately invoked, passing in each item in the array like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for (var i = 0; i &amp;lt; array.length; i++) {  
+      (function(element)
+        this.doSomething()
+        .then(function() {
+          console.log(element);
+        });
+      })(array[i]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Written this way, the current element is captured in a closure and the promise runs for each element in the array. Awesome!&lt;/p&gt;</content:encoded></item><item><title>How to Make Your Angular Code Modular Using Custom Directives</title><description>&lt;p&gt;If you're like me, when you first started coding, you put all your Javascript in one big app.js file and all your HTML in one big index.html file. The problem with this is that as your application grows, so does your headache trying to find particular lines of&lt;/p&gt;</description><link>http://localhost:2368/modular-angular/</link><guid isPermaLink="false">5c7d8c99-179b-4a34-a6d3-0ae312526bdb</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Tue, 12 Jan 2016 00:23:13 GMT</pubDate><content:encoded>&lt;p&gt;If you're like me, when you first started coding, you put all your Javascript in one big app.js file and all your HTML in one big index.html file. The problem with this is that as your application grows, so does your headache trying to find particular lines of code or trying to sort out what is exactly doing what. Making your code more modular by breaking it up in to smaller files keeps your code clean, readable and reusable.&lt;/p&gt;
 
 &lt;p&gt;With Angular, you can use custom directives to insert snippets of HTML directly in to the DOM. Let's say you had the following code in your index.html file:&lt;/p&gt;
 
