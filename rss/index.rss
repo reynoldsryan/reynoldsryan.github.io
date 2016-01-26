@@ -1,19 +1,23 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Tue, 26 Jan 2016 16:46:07 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Hooking React Router up to Redux</title><description>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application&lt;/p&gt;</description><link>http://localhost:2368/hooking-react-route-up-to-redux/</link><guid isPermaLink="false">80ef16a2-d067-4eaf-aa1b-9f4f0a191775</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Tue, 26 Jan 2016 16:45:20 GMT</pubDate><content:encoded>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application using ES6 (and if you don't, I highly recommend Stephen Grider's Udemy course at &lt;a href="https://www.udemy.com/react-redux"&gt;https://www.udemy.com/react-redux&lt;/a&gt;).&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Tue, 26 Jan 2016 16:53:49 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Hooking React Router up to Redux</title><description>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application&lt;/p&gt;</description><link>http://localhost:2368/hooking-react-route-up-to-redux/</link><guid isPermaLink="false">80ef16a2-d067-4eaf-aa1b-9f4f0a191775</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Tue, 26 Jan 2016 16:45:20 GMT</pubDate><content:encoded>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application using ES6 (and if you don't, I highly recommend Stephen Grider's Udemy course at &lt;a href="https://www.udemy.com/react-redux"&gt;https://www.udemy.com/react-redux&lt;/a&gt;).&lt;/p&gt;
 
 &lt;p&gt;First, npm install 'react-router' and 'react-router-redux' and then include the following in your list of imported modules in your top-level index.js:  &lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;import React from 'react';  
 import ReactDOM from 'react-dom';  
 import { Provider } from 'react-redux';  
-import { createStore, applyMiddleware, compose } from 'redux';  
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';  
 import { Router, Route, browserHistory } from 'react-router';  
-import { syncHistory } from 'react-router-redux';  
+import { routeReducer, syncHistory } from 'react-router-redux';  
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next, in the same index.js file, create your Redux store like so (the devTools language is optional, but I have found the Redux Chrome extension to be EXTREMELY valuable - download it at &lt;a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en"&gt;https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en&lt;/a&gt;):&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;const history = browserHistory;  
 const middleware = syncHistory(history);  
+const reducers = combineReducers({  
+  routing: routeReducer
+  ADDITIONAL REDUCERS GO HERE
+});
 const createStoreWithMiddleware = compose(applyMiddleware(middleware), window.devToolsExtension ? window.devToolsExtension() : f =&amp;gt; f)(createStore);  
 const store = createStoreWithMiddleware(reducers);  
 &lt;/code&gt;&lt;/pre&gt;
@@ -52,7 +56,7 @@ const store = createStoreWithMiddleware(reducers);
 &amp;lt;/Route&amp;gt;  
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Be sure to include {this.props.children} in the render function of your Page1 component like in App above to make your SubPage1 component render on screen.&lt;/p&gt;</content:encoded></item><item><title>Promises Inside a For Loop</title><description>&lt;p&gt;I stumbled across an awesome fix for a problem I was encountering this week. Basically I was trying to run a promise in every iteration of a for loop like so:&lt;/p&gt;
+&lt;p&gt;Be sure to include {this.props.children} in the render function of your Page1 component like in App above to make your SubPage1 component render to the screen.&lt;/p&gt;</content:encoded></item><item><title>Promises Inside a For Loop</title><description>&lt;p&gt;I stumbled across an awesome fix for a problem I was encountering this week. Basically I was trying to run a promise in every iteration of a for loop like so:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;for (var i = 0; i &amp;lt; array.length; i++) {  
         this.doSomething()
