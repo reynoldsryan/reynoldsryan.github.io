@@ -1,0 +1,235 @@
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Simple JWT Authentication in a Redux App</title>
+    <meta name="description" content="">
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="../assets/css/screen.css?v=65d88958ac">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,400">
+
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="Lorem Ipsum Loquitur">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Simple JWT Authentication in a Redux App">
+    <meta property="og:description" content="There seem to be many different opinions on the best way to implement client-side authentication using JSON Web Tokens in a Redux app, but I couldn't find any that explained how to do so in a simple way for smaller...">
+    <meta property="og:url" content="http://localhost:2368/simple-jwt-authentication-in-a-redux-app/">
+    <meta property="article:published_time" content="2016-02-05T22:35:42.209Z">
+    <meta property="article:modified_time" content="2016-02-05T22:35:42.208Z">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Simple JWT Authentication in a Redux App">
+    <meta name="twitter:description" content="There seem to be many different opinions on the best way to implement client-side authentication using JSON Web Tokens in a Redux app, but I couldn't find any that explained how to do so in a simple way for smaller...">
+    <meta name="twitter:url" content="http://localhost:2368/simple-jwt-authentication-in-a-redux-app/">
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "Lorem Ipsum Loquitur",
+    "author": {
+        "@type": "Person",
+        "name": "Ryan Reynolds",
+        "url": "http://localhost:2368/author/ryan",
+        "sameAs": null,
+        "description": null
+    },
+    "headline": "Simple JWT Authentication in a Redux App",
+    "url": "http://localhost:2368/simple-jwt-authentication-in-a-redux-app/",
+    "datePublished": "2016-02-05T22:35:42.209Z",
+    "dateModified": "2016-02-05T22:35:42.208Z",
+    "description": "There seem to be many different opinions on the best way to implement client-side authentication using JSON Web Tokens in a Redux app, but I couldn&#x27;t find any that explained how to do so in a simple way for smaller..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.7">
+    <link rel="alternate" type="application/rss+xml" title="Lorem Ipsum Loquitur" href="../rss/index.html">
+</head>
+<body class="post-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="index.html#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+            <li class="nav-home" role="presentation"><a href="../">Home</a></li>
+    </ul>
+    <a class="subscribe-button icon-feed" href="../rss/index.rss">Subscribe</a>
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        
+
+
+<header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        
+            <a class="menu-button icon-menu" href="index.html#"><span class="word">Menu</span></a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Simple JWT Authentication in a Redux App</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2016-02-05">05 February 2016</time> 
+            </section>
+        </header>
+
+        <section class="post-content">
+            <p>There seem to be many different opinions on the best way to implement client-side authentication using JSON Web Tokens in a Redux app, but I couldn't find any that explained how to do so in a simple way for smaller applications that didn't require production-level authentication. I came up with the following which has worked for me and is fairly quick and easy to set up.</p>
+
+<p>(For a description of JWTs and a thorough explanation of how to implement the server-side of things, take a look at <a href="http://www.sitepoint.com/using-json-web-tokens-node-js/">http://www.sitepoint.com/using-json-web-tokens-node-js/</a>.)</p>
+
+<p>The implementation looks identical whether you are signing up a user or logging in a user, so I'll just go over the code for sign up. </p>
+
+<p>First, create your Redux store using the redux-promise middleware:</p>
+
+<pre><code>import { createStore, applyMiddleware } from 'redux';  
+import ReduxPromise from 'redux-promise';
+
+let store = createStore(reducers, applyMiddleware(ReduxPromise));  
+</code></pre>
+
+<p>Your sign up form should call an action creator that sends over the user's email and password to the server:</p>
+
+<pre><code>import axios from 'axios';
+
+export const SIGNUP_USER = 'SIGNUP_USER';
+
+export function signupUser(email, password) {  
+  let tokenFromServer = axios.post('/signup', {user: {
+    email: email,
+    password: password
+  }}).catch((response) =&gt; {
+    console.error('Error in sign up: ', response);
+  });
+
+  return {
+    type: SIGNUP_USER,
+    payload: tokenFromServer
+  };
+}
+</code></pre>
+
+<p>Axios is a great promise-based HTTP client for making requests to the server. Because we are using redux-promise, the action will only be sent to the reducers if the promise successfully resolves (i.e., it gets a token back from the server). </p>
+
+<p>Create a reducer that sets the token in local storage and returns a new object that stores the token in the Redux state:  </p>
+
+<pre><code>import { SIGNUP_USER } from '../actions';
+
+export default function (state = { token: localStorage.getItem('token') }, action) {  
+  switch(action.type) {
+  case SIGNUP_USER:
+    localStorage.setItem('token',     action.payload.headers.token);
+    return Object.assign({}, state,
+      { token: localStorage.getItem('token') });
+  default:
+    return state;
+  }
+}
+</code></pre>
+
+<p>In your routes file, you can then check whether your user has a token when they attempt to navigate to a protected route:  </p>
+
+<pre><code>const checkAuth = (nextState, replace) =&gt; {  
+  if(!localStorage.getItem('token')) {
+    replace({ pathname: '/' });
+  }
+};
+
+export default (  
+&lt;Route path='/' component={App}&gt;  
+  &lt;IndexRoute component={Index} /&gt;
+  &lt;Route path='protected' onEnter={checkAuth} component={Protected} /&gt;
+&lt;/Route&gt;  
+);
+</code></pre>
+
+<p>Finally, add the following action and reducer to your app to logout your user and remove the token:  </p>
+
+<pre><code>export function logoutUser() {  
+  return {
+    type: LOGOUT_USER
+  };
+}
+
+case LOGOUT_USER:  
+    localStorage.removeItem('token');
+    return Object.assign({}, state,
+      { token: localStorage.getItem('token') });
+</code></pre>
+        </section>
+
+        <footer class="post-footer">
+
+
+
+            <section class="author">
+                <h4><a href="../author/ryan/">Ryan Reynolds</a></h4>
+
+                    <p>Read <a href="../author/ryan/">more posts</a> by this author.</p>
+                <div class="author-meta">
+                    
+                    
+                </div>
+            </section>
+
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/intent/tweet?text=Simple%20JWT%20Authentication%20in%20a%20Redux%20App&amp;url=http://localhost:2368/simple-jwt-authentication-in-a-redux-app/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:2368/simple-jwt-authentication-in-a-redux-app/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://localhost:2368/simple-jwt-authentication-in-a-redux-app/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+
+        </footer>
+
+    </article>
+</main>
+
+<aside class="read-next">
+    <a class="read-next-story prev no-cover" href="../hooking-react-route-up-to-redux/">
+        <section class="post">
+            <h2>Hooking React Router up to Redux</h2>
+            <p>One struggle I had this week was figuring out how to get my routes in my React application to…</p>
+        </section>
+    </a>
+</aside>
+
+
+
+        <footer class="site-footer clearfix">
+            <section class="copyright"><a href="../">Lorem Ipsum Loquitur</a> © 2016</section>
+            <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+        </footer>
+
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery.fitvids.js?v=65d88958ac"></script>
+    <script type="text/javascript" src="../assets/js/index.js?v=65d88958ac"></script>
+
+</body>

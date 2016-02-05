@@ -1,4 +1,85 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Tue, 26 Jan 2016 16:53:49 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Hooking React Router up to Redux</title><description>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application&lt;/p&gt;</description><link>http://localhost:2368/hooking-react-route-up-to-redux/</link><guid isPermaLink="false">80ef16a2-d067-4eaf-aa1b-9f4f0a191775</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Tue, 26 Jan 2016 16:45:20 GMT</pubDate><content:encoded>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application using ES6 (and if you don't, I highly recommend Stephen Grider's Udemy course at &lt;a href="https://www.udemy.com/react-redux"&gt;https://www.udemy.com/react-redux&lt;/a&gt;).&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Lorem Ipsum Loquitur</title><description>Thoughts, stories and ideas.</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Fri, 05 Feb 2016 22:36:10 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Simple JWT Authentication in a Redux App</title><description>&lt;p&gt;There seem to be many different opinions on the best way to implement client-side authentication using JSON Web Tokens in a Redux app, but I couldn't find any that explained how to do so in a simple way for smaller applications that didn't require production-level authentication. I came up with&lt;/p&gt;</description><link>http://localhost:2368/simple-jwt-authentication-in-a-redux-app/</link><guid isPermaLink="false">860b5852-975a-4cb0-af1e-710aa11e2a7d</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Fri, 05 Feb 2016 22:35:42 GMT</pubDate><content:encoded>&lt;p&gt;There seem to be many different opinions on the best way to implement client-side authentication using JSON Web Tokens in a Redux app, but I couldn't find any that explained how to do so in a simple way for smaller applications that didn't require production-level authentication. I came up with the following which has worked for me and is fairly quick and easy to set up.&lt;/p&gt;
+
+&lt;p&gt;(For a description of JWTs and a thorough explanation of how to implement the server-side of things, take a look at &lt;a href="http://www.sitepoint.com/using-json-web-tokens-node-js/"&gt;http://www.sitepoint.com/using-json-web-tokens-node-js/&lt;/a&gt;.)&lt;/p&gt;
+
+&lt;p&gt;The implementation looks identical whether you are signing up a user or logging in a user, so I'll just go over the code for sign up. &lt;/p&gt;
+
+&lt;p&gt;First, create your Redux store using the redux-promise middleware:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import { createStore, applyMiddleware } from 'redux';  
+import ReduxPromise from 'redux-promise';
+
+let store = createStore(reducers, applyMiddleware(ReduxPromise));  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Your sign up form should call an action creator that sends over the user's email and password to the server:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import axios from 'axios';
+
+export const SIGNUP_USER = 'SIGNUP_USER';
+
+export function signupUser(email, password) {  
+  let tokenFromServer = axios.post('/signup', {user: {
+    email: email,
+    password: password
+  }}).catch((response) =&amp;gt; {
+    console.error('Error in sign up: ', response);
+  });
+
+  return {
+    type: SIGNUP_USER,
+    payload: tokenFromServer
+  };
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Axios is a great promise-based HTTP client for making requests to the server. Because we are using redux-promise, the action will only be sent to the reducers if the promise successfully resolves (i.e., it gets a token back from the server). &lt;/p&gt;
+
+&lt;p&gt;Create a reducer that sets the token in local storage and returns a new object that stores the token in the Redux state:  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import { SIGNUP_USER } from '../actions';
+
+export default function (state = { token: localStorage.getItem('token') }, action) {  
+  switch(action.type) {
+  case SIGNUP_USER:
+    localStorage.setItem('token',     action.payload.headers.token);
+    return Object.assign({}, state,
+      { token: localStorage.getItem('token') });
+  default:
+    return state;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In your routes file, you can then check whether your user has a token when they attempt to navigate to a protected route:  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;const checkAuth = (nextState, replace) =&amp;gt; {  
+  if(!localStorage.getItem('token')) {
+    replace({ pathname: '/' });
+  }
+};
+
+export default (  
+&amp;lt;Route path='/' component={App}&amp;gt;  
+  &amp;lt;IndexRoute component={Index} /&amp;gt;
+  &amp;lt;Route path='protected' onEnter={checkAuth} component={Protected} /&amp;gt;
+&amp;lt;/Route&amp;gt;  
+);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, add the following action and reducer to your app to logout your user and remove the token:  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export function logoutUser() {  
+  return {
+    type: LOGOUT_USER
+  };
+}
+
+case LOGOUT_USER:  
+    localStorage.removeItem('token');
+    return Object.assign({}, state,
+      { token: localStorage.getItem('token') });
+&lt;/code&gt;&lt;/pre&gt;</content:encoded></item><item><title>Hooking React Router up to Redux</title><description>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application&lt;/p&gt;</description><link>http://localhost:2368/hooking-react-route-up-to-redux/</link><guid isPermaLink="false">80ef16a2-d067-4eaf-aa1b-9f4f0a191775</guid><dc:creator>Ryan Reynolds</dc:creator><pubDate>Tue, 26 Jan 2016 16:45:20 GMT</pubDate><content:encoded>&lt;p&gt;One struggle I had this week was figuring out how to get my routes in my React application to play nice  with Redux. Here's a step by step in case anyone else has the same challenge. This assumes a basic knowledge of how to set up a React/Redux application using ES6 (and if you don't, I highly recommend Stephen Grider's Udemy course at &lt;a href="https://www.udemy.com/react-redux"&gt;https://www.udemy.com/react-redux&lt;/a&gt;).&lt;/p&gt;
 
 &lt;p&gt;First, npm install 'react-router' and 'react-router-redux' and then include the following in your list of imported modules in your top-level index.js:  &lt;/p&gt;
 
